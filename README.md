@@ -16,13 +16,14 @@ A minimal, always-available task tracker that lives in your system tray. Built f
 
 ## Screenshots
 
-*(add a screenshot here once you have one — drag an image into this section on GitHub)*
+<img width="421" height="674" alt="image" src="https://github.com/user-attachments/assets/76002103-ef54-4f8a-967a-11f1abec297a" />
+
 
 ## Installation
 
 Download the latest installer for your platform from the [Releases](../../releases) page:
 
-- **Windows** — `Setup.exe` (via Squirrel)
+- **Windows** — `Setup.exe`
 - **macOS** — `.dmg`
 
 Run the installer and the app will appear in your system tray.
