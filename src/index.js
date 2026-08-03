@@ -119,7 +119,26 @@ ipcMain.handle('get-entry-for-date', (event, date) => {
   const entry = data.history.find((e) => e.date === date) || { date, counts: {} };
   return { data, entry };
 });
+app.whenReady().then(() => {
+  createWindow();
 
+  // Register to launch on system startup
+  app.setLoginItemSettings({
+    openAtLogin: true,
+    path: process.execPath, // path to the packaged .exe once built
+  });
+
+  tray = new Tray(path.join(__dirname, '../icon.png'));
+  tray.setToolTip('Task Tracker');
+  tray.on('click', () => {
+    if (win.isVisible()) {
+      win.hide();
+    } else {
+      win.show();
+      win.focus();
+    }
+  });
+});
 ipcMain.handle('update-count', (event, group, activity, delta) => {
   const data = loadData();
   const today = getToday();

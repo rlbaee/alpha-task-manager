@@ -2,6 +2,18 @@ const { FusesPlugin } = require('@electron-forge/plugin-fuses');
 const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 
 module.exports = {
+  publishers: [
+    {
+      name: '@electron-forge/publisher-github',
+      config: {
+        repository: {
+          owner: 'your-github-username',
+          name: 'alpha-task-manager',
+        },
+        prerelease: false,
+      },
+    },
+  ],
   packagerConfig: {
     asar: true,
   },
@@ -40,5 +52,6 @@ module.exports = {
       [FuseV1Options.EnableEmbeddedAsarIntegrityValidation]: true,
       [FuseV1Options.OnlyLoadAppFromAsar]: true,
     }),
+    
   ],
 };
