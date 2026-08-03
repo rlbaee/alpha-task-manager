@@ -1,12 +1,173 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Alpha Task Manager</title>
-    <link rel="stylesheet" href="index.css" />
-  </head>
-  <body>
-    <h1>Alpha Task Manager</h1>
-    <p>Welcome to your Tauri application.</p>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <title>Task Tracker</title>
+  <style>
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+  }
+
+  #app {
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    color: #e4e4ec;
+    width: 100%;
+    height: 100%;
+    -webkit-app-region: drag; /* whole window draggable by default */
+
+    background: #17171d;
+    border-radius: 16px;
+    border: 1px solid #26262f;
+    box-shadow: 0 24px 48px rgba(0,0,0,0.45);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 18px 12px;
+    flex-shrink: 0;
+    /* no no-drag here anymore — header background stays draggable */
+  }
+
+  .nav-btn {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #8a8a99;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease, color 0.15s ease;
+    -webkit-app-region: no-drag; /* only the button itself is clickable, not draggable */
+  }
+  .nav-btn:hover:not(:disabled) {
+    background: #232330;
+    color: #fff;
+  }
+  .nav-btn:disabled { opacity: 0.25; cursor: default; }
+
+  .date-wrap { display: flex; flex-direction: column; align-items: center; }
+  .date-label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #f2f2f7;
+    letter-spacing: 0.1px;
+  }
+  .date-sub {
+    font-size: 10.5px;
+    color: #6c6c7a;
+    text-align: center;
+    margin-top: 1px;
+  }
+
+  #list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 14px 16px;
+  -webkit-app-region: no-drag;
+}
+  #list::-webkit-scrollbar { width: 0px; background: transparent; }
+
+  .group-label {
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #55555f;
+    margin: 18px 4px 8px;
+  }
+  .group-label:first-child { margin-top: 2px; }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    transition: background 0.15s ease;
+  }
+  .row:hover { background: #1e1e26; }
+  .row.active .count { color: #7c9fff; }
+
+  .row span.label {
+    font-size: 12.5px;
+    color: #c7c7d1;
+    padding-right: 10px;
+    line-height: 1.3;
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  button.stepper {
+    width: 22px;
+    height: 22px;
+    border: none;
+    border-radius: 6px;
+    background: #232330;
+    color: #c7c7d1;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease, transform 0.1s ease, color 0.15s ease;
+    -webkit-app-region: no-drag; /* only the buttons themselves, not their row */
+  }
+  button.stepper:hover:not(:disabled) {
+    background: #2d2d3a;
+    color: #fff;
+  }
+  button.stepper:active:not(:disabled) { transform: scale(0.88); }
+  button.stepper:disabled { opacity: 0.2; cursor: default; }
+  button.stepper.plus:hover:not(:disabled) {
+    background: #3a4a8f;
+    color: #cfe;
+  }
+
+  .count {
+    min-width: 20px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: #e4e4ec;
+  }
+</style>
+</head>
+<body>
+  <div id="app">
+    <div class="header">
+      <button class="nav-btn" id="prevBtn">‹</button>
+      <div class="date-wrap">
+        <span class="date-label" id="dateLabel"></span>
+        <span class="date-sub" id="dateSub"></span>
+      </div>
+      <button class="nav-btn" id="nextBtn">›</button>
+    </div>
+    <div id="list"></div>
+  </div>
+  <script src="renderer.js"></script>
+</body>
 </html>

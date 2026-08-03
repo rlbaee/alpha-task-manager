@@ -1,2 +1,8 @@
-// See the Electron documentation for details on how to use preload scripts:
-// https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
+const { contextBridge, ipcRenderer } = require('electron');
+
+contextBridge.exposeInMainWorld('api', {
+  getData: () => ipcRenderer.invoke('get-data'),
+  getEntryForDate: (date) => ipcRenderer.invoke('get-entry-for-date', date),
+  updateCount: (group, activity, delta) =>
+    ipcRenderer.invoke('update-count', group, activity, delta),
+});
