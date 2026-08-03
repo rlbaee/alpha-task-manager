@@ -1,15 +1,18 @@
-name: Build and Release
+name: Build
 
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   build:
     strategy:
       matrix:
-        os: [windows-latest, macos-latest]
+        os:
+          - windows-latest
+          - macos-latest
+
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -17,14 +20,13 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - run: npm install
 
       - run: npm run make
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: build-${{ matrix.os }}
-          path: out/make/**/*
+          path: out/make/**
